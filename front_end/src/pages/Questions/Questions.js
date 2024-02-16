@@ -1,77 +1,127 @@
-import React, {useState} from 'react'
-import QuestionList from "./QuestionList";
-import { v4 as uuidv4 } from 'uuid';
+import React, {useEffect, useRef} from 'react'
+import questions from "./QuestionList";
 import '../style/Questions.css';
-import { Link } from 'react-router-dom';
+
 
 const Questions = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [clicked, setClicked] = useState(false); 
-  const [showScore, setShowScore] = useState(false);
+    const nextButtonRef = useRef(null);
+    const answerButtonsRef = useRef(null);
+    const questionElementRef = useRef(null);
 
-  const handleCorrectAnswer = (isCorrect) => {
+
+    useEffect(() => {
+      
+        const questionElement = questionElementRef.current;
+   //   const questionElement = document.getElementById("question");
+      
+      const answerButtons = answerButtonsRef.current;
+   //  const answerButtons = document.getElementById("answer-buttons");
+      
+      const nextButton = nextButtonRef.current;
+   // const nextButton = document.getElementById("next-quizbtn");
+    
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        
+    function resetState() {
+    nextButton.style.display = "none";
+    while (answerButtons.firstChild) {
+        answerButtons.removeChild(answerButtons.firstChild);
+    }
+}
+function showQuestion() {
+    resetState();
+    let currentQuestion = questions[currentQuestionIndex];
+    let questionNo = currentQuestionIndex + 1;
+    questionElement.innerHTML = questionNo + ". " + currentQuestion.question;
+
+    currentQuestion.answers.forEach(answer => {
+        const button = document.createElement("button");
+        button.innerHTML = answer.text;
+        button.classList.add("quizbtn");
+        answerButtons.appendChild(button);
+        if (answer.correct) {
+            button.dataset.correct = answer.correct;
+        }
+        button.addEventListener("click", selectAnswer);
+    });
+}
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    nextButton.innerHTML = "Next";
+    showQuestion();
+}
+
+function selectAnswer(e) {
+    const selectedquizbtn = e.target;
+    const isCorrect = selectedquizbtn.dataset.correct === "true";
     if (isCorrect) {
-      setScore(score + 1)
-    }
-      setClicked(true);
-  };
-  const handleNextQuestion =() =>{
-    setClicked(false);
-    if(currentQuestion < QuestionList.length - 1){
-      setCurrentQuestion(currentQuestion + 1)
+        selectedquizbtn.classList.add("correct");
+        score++;
     } else {
-      setShowScore(true);
+        selectedquizbtn.classList.add("incorrect");
     }
-  };
+    Array.from(answerButtons.children).forEach(button => {
+        if (button.dataset.correct === "true") {
+            button.classList.add("correct");
+        }
+        button.disabled = true;
+    });
+    nextButton.style.display = "block";
+}
+
+function showScore() {
+    resetState();
+    questionElement.innerHTML = `You Scored ${score} out of ${questions.length}!`;
+    nextButton.innerHTML = "Play Again";
+    nextButton.style.display = "block";
+ }
+
+function handleNextButton() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        showScore();
+     }
+}
+
+nextButton.addEventListener("click", () => {
+    if (currentQuestionIndex < questions.length) {
+        handleNextButton();
+    } else {
+        startQuiz();
+    }
+})
+
+  startQuiz(); })
+
+  
+  
   return (
-    <div className="body">
-    <div className="app-wrapper">
-      {showScore ? (
-        <div>
-            <div>
-                <div className="completed">Completed</div>
-                <div className="score-section">
-                    Your Score: {score}/{QuestionList.length}
-                </div>
+    <div className='quizBody'>
+      <>
+        <div className="quizContainer">
+        <h1>Quiz ##</h1>
+        <div className="quiz">
+            <h2 id="question" ref={questionElementRef}>question goes here</h2>
+            <div id="answer-buttons" ref={answerButtonsRef}>
+                <button className="quizbtn" type="button">answer 1</button>
+                <button className="quizbtn" type="button">answer 2</button>
+                <button className="quizbtn" type="button">answer 3</button>
+                <button className="quizbtn" type="button">answer 4</button>
             </div>
-          
+            <button id="next-btn" ref={nextButtonRef} type="button">Next</button>
         </div>
-      ) : (
-      <div>
-        <div className="question-section-wrapper">
-          <div className="question-count">
-            Question {currentQuestion + 1} of {QuestionList.length}
-          </div>
-          <div className="question mx-auto">
-            {QuestionList[currentQuestion].question}
-          </div>
-        </div>
-        <div className="answer-section-wrapper">
-          {QuestionList[currentQuestion].answerList.map((answerOption) => (
-            <li className="answer-list" key={uuidv4()}>
-              <button 
-                className={' answer-button ${ clicked && answerOption.isCorrect ? "correct" : "" }'}
-                onClick={() => handleCorrectAnswer(answerOption.isCorrect)}
-              >
-                {answerOption.answer}
-              </button>
-            </li>
-          ))}
-        </div>
-      <div>
-       <button 
-       className="next-button"
-       onClick={handleNextQuestion}
-       disabled={!clicked}>
-        Next
-        </button>
-      </div>
     </div>
-      )}
-    </div>
-    </div>
+      </>
+ 
+  </div>
+   
   )
 }
 
-export default Questions
+export default Questions;
