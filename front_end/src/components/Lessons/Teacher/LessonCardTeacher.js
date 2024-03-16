@@ -44,4 +44,4 @@ const LessonCardTeacher = (props) => {
   )
 }
 
-export default LessonCardTeacher
+export default LessonCardTeacher;

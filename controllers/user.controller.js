@@ -65,7 +65,7 @@ const login = asyncWrapper(async (req, res, next) => {
 
 
 const viewAccount = asyncWrapper(async (req,res,next)=> {
-    const userId = req.params.id
+    const userId = req.currentUser.id
     const user = await User.findById(
        { _id : userId },
        {token:0,password:0}

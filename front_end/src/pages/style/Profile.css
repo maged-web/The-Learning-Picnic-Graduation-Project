@@ -7,6 +7,11 @@
     box-shadow: 3px 1px 10px 5px rgb(60, 58, 58);
 }
 
+.account-container{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .sectionAccount {
     padding: 120px 0;
     overflow: hidden;
@@ -15,6 +20,13 @@
 
 .backgroundCard {
     background: #063664;
+}
+
+.img-display{
+    height: 300px;
+    width: 300px;
+    border-radius: 100%;
+    margin: 0 auto;
 }
 
 @media (max-width:350px){
@@ -34,4 +46,17 @@
         padding: 1rem;
         padding-left: 0;
     }
+}
+
+@media (max-width: 767px){
+    .account-container{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+        .img-display {
+            height: 250px;
+            width: 250px;
+            margin: 20px auto 0;
+        }
 }

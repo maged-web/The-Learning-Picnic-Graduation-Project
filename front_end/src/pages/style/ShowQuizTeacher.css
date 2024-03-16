@@ -1,38 +1,38 @@
 .bodyTeacherQuiz{
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-size: 300% 300%;
-        background-image: linear-gradient(-50deg, #22bfc3 0%, #22bfc3 25%, #22bfc3 51%, #ff2a78 100%);
-        -webkit-animation: AnimateBG 7s ease infinite;
-        animation: AnimateBG 7s ease infinite;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: 300% 300%;
+    background-image: linear-gradient(-50deg, #22bfc3 0%, #22bfc3 25%, #22bfc3 51%, #ff2a78 100%);
+    -webkit-animation: AnimateBG 7s ease infinite;
+    animation: AnimateBG 7s ease infinite;
 }
 
 @-webkit-keyframes AnimateBG {
-    0% {
-        background-position: 0% 50%;
-    }
+0% {
+    background-position: 0% 50%;
+}
 
-    50% {
-        background-position: 100% 50%;
-    }
+50% {
+    background-position: 100% 50%;
+}
 
-    100% {
-        background-position: 0% 50%;
-    }
+100% {
+    background-position: 0% 50%;
+}
 }
 
 @keyframes AnimateBG {
-    0% {
-        background-position: 0% 50%;
-    }
+0% {
+    background-position: 0% 50%;
+}
 
-    50% {
-        background-position: 100% 50%;
-    }
+50% {
+    background-position: 100% 50%;
+}
 
-    100% {
-        background-position: 0% 50%;
-    }
+100% {
+    background-position: 0% 50%;
+}
 }

@@ -13,7 +13,6 @@ router.route("/login")
     .post(userController.login)
 
 router.route("/:id")
-      .get(verifyToken,allowedTo(userRoles.ADMIN),userController.viewAccount)
       .delete(verifyToken, allowedTo(userRoles.ADMIN),userController.deleteUser)
       .put(verifyToken,allowedTo(userRoles.ADMIN),userController.updateUser)
 
@@ -22,6 +21,9 @@ router.route("/")
 
 router.route("/parent/:id")
       .put(verifyToken,allowedTo(userRoles.ADMIN),userController.addChildEmail)
+
+router.route("/Account")
+      .get(verifyToken,userController.viewAccount)
 
 
 /* router.route("/logout")
